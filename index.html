@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College Trip — Animated Photo Showcase by AKhil verma </title>
+  <style>
+    :root {
+      --bg: #0e0f13;
+      --panel: #141824;
+      --accent: #7c5cff;
+      --accent-2: #23d5ab;
+      --text: #f5f7ff;
+      --muted: #9aa3b2;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji';
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 100% -10%, rgba(124, 92, 255, .15), transparent 60%),
+        radial-gradient(900px 500px at -20% 120%, rgba(35, 213, 171, .12), transparent 60%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      padding: 8rem 1rem 6rem;
+      background: linear-gradient(120deg, rgba(124, 92, 255, .15), rgba(35, 213, 171, .12) 60%, transparent),
+        radial-gradient(1000px 400px at 50% -10%, rgba(124, 92, 255, .25), transparent 60%);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -20vmax;
+      z-index: -1;
+      background: repeating-conic-gradient(from 0deg, rgba(255, 255, 255, .03) 0 15deg, transparent 15deg 30deg);
+      animation: spin 60s linear infinite;
+    }
+
+    .hero::after {
+      animation-duration: 90s;
+      mix-blend-mode: soft-light;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(1turn);
+      }
+    }
+
+    .title {
+      text-align: center;
+      max-width: 1000px;
+    }
+
+    .title h1 {
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      margin: 0 0 .75rem;
+      letter-spacing: .5px;
+      background: linear-gradient(90deg, #fff, #c9c9ff, #b6ffef, #fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 7s ease-in-out infinite;
+      background-size: 200% 100%;
+      text-shadow: 0 6px 30px rgba(124, 92, 255, .2);
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    .title p {
+      margin: 0 auto 2rem;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+
+    .chip-row {
+      display: flex;
+      gap: .6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: .5rem .85rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .08);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: rise .8s ease-out forwards;
+    }
+
+    .chip:nth-child(1) {
+      animation-delay: .2s
+    }
+
+    .chip:nth-child(2) {
+      animation-delay: .35s
+    }
+
+    .chip:nth-child(3) {
+      animation-delay: .5s
+    }
+
+    .chip:nth-child(4) {
+      animation-delay: .65s
+    }
+
+    @keyframes rise {
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    /* =====================
+       SLIDESHOW (CSS-ONLY FADE)
+       ===================== */
+    .slideshow {
+      position: relative;
+      width: min(1100px, 92vw);
+      height: 56vw;
+      max-height: 540px;
+      margin: 2.2rem auto 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .slideshow figure {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      opacity: 0;
+      animation: fade 24s infinite;
+    }
+
+    .slideshow figure:nth-child(1) {
+      animation-delay: 0s
+    }
+
+    .slideshow figure:nth-child(2) {
+      animation-delay: 6s
+    }
+
+    .slideshow figure:nth-child(3) {
+      animation-delay: 12s
+    }
+
+    .slideshow figure:nth-child(4) {
+      animation-delay: 18s
+    }
+
+    @keyframes fade {
+      0% {
+        opacity: 0;
+        transform: scale(1)
+      }
+
+      5%,
+      25% {
+        opacity: 1
+      }
+
+      30% {
+        opacity: 0
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.06)
+      }
+
+      /* slight Ken Burns */
+    }
+
+    .slideshow figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: .9rem 1.1rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, .55), transparent 65%);
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    /* =====================
+       GALLERY GRID
+       ===================== */
+    .section {
+      padding: 3rem 1rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+      margin: 0 0 1.2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .card {
+      grid-column: span 4;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+      box-shadow: var(--shadow);
+
+      /* enter animation */
+      opacity: 0;
+      transform: translateY(18px) rotateX(4deg);
+      animation: cardIn .9s ease both;
+    }
+
+    .card:nth-child(3n+1) {
+      animation-delay: .1s
+    }
+
+    .card:nth-child(3n+2) {
+      animation-delay: .4s
+    }
+
+    .card:nth-child(3n) {
+      animation-delay: .6s
+    }
+
+    @keyframes cardIn {
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .card .media {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+
+    .card img {
+      transition: transform .8s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.08) rotate(.3deg);
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, .55);
+      padding: .35rem .55rem;
+      border-radius: 10px;
+      font-size: .8rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .caption {
+      padding: .9rem .9rem 1.1rem;
+      color: var(--muted);
+    }
+
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(0, 0, 0, .8);
+      z-index: 1000;
+    }
+
+    .lightbox:target {
+      display: grid;
+    }
+
+    .lightbox figure {
+      width: min(1100px, 94vw);
+      max-height: 88vh;
+      margin: 0;
+      position: relative;
+    }
+
+    .lightbox img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .lightbox a.close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: #111;
+      color: #fff;
+      border-radius: 999px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
+
+
+    .parallax {
+      margin: 3rem 0;
+      height: 42vh;
+      min-height: 320px;
+      border-radius: var(--radius);
+      background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      filter: saturate(1.05);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .parallax::after {
+      content: "Memories in Motion";
+      position: absolute;
+      inset: auto 0 12px 0;
+      text-align: center;
+      font-weight: 800;
+      font-size: clamp(1.1rem, 4vw, 2rem);
+      background: linear-gradient(to top, rgba(0, 0, 0, .6), transparent);
+      padding: 1.2rem 1rem 1.6rem;
+    }
+
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem 1rem 4rem;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: .6rem;
+      padding: .7rem 1rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #0a0a0a;
+      font-weight: 800;
+      letter-spacing: .3px;
+      transform: translateY(2px);
+      transition: transform .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(0)
+    }
+
+    .tagline {
+      opacity: .9
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="title">
+      <h1>College Trip 2025 — SRMU Friends( Bca Normal)</h1>
+      <p class="tagline">Take photos, jot down reflections, and immerse yourself in the journey. These mementos will
+        help you relive the adventures and lessons learned long after the trip is over.</p>
+      <div class="chip-row">
+        <span class="chip">#SRMU</span>
+        <span class="chip">#CollegeTrip</span>
+        <span class="chip">#Friends</span>
+        <span class="chip">#Memories</span>
+      </div>
+
+      <div class="slideshow" aria-label="Trip highlights slideshow">
+        <figure>
+          <img src="IMG_20250813_142042_355[1].jpg" alt="mall fun " />
+          <figcaption>Trekked to the ridge — Day 1</figcaption>
+        </figure>
+        <figure>
+          <img src="IMG-20250813-WA0059[1].jpg" alt="Enjoy in imambara with Dahibara " />
+          <figcaption>Bonfire & songs — Night vibes</figcaption>
+        </figure>
+        <figure>
+          <img src="IMG-20250813-WA0066[1].jpg" alt="Singing star Ayushman chaubey " />
+          <figcaption>Bus buddies — window stories</figcaption>
+        </figure>
+        <figure>
+          <img src="IMG-20250813-WA0072[1].jpg" alt="mr.Dabangg uday rastogi with praveen bhai " />
+          <figcaption>Famous singer with sayar Ashutosh bhai </figcaption>
+        </figure>
+      </div>
+    </div>
+  </header>
+  <section class="section">
+    <h2>Photo Gallery</h2>
+    <div class="grid">
+      <a class="card" href="#lg-1" title="Open full photo">
+        <div class="media">
+          <img src="IMG_20250813_152605_205[1].jpg" alt="Friends laughing in the bus" />
+        </div>
+        <span class="badge">Day 1</span>
+        <div class="caption">mall fun — playlist wars & snacks.</div>
+      </a>
+
+      <!-- CARD 2 -->
+      <a class="card" href="#lg-2" title="Open full photo">
+        <div class="media">
+          <img src="IMG-20250813-WA0077[1].jpg" alt="Enjoy in emambara with dahibara" />
+        </div>
+        <span class="badge">Day 1</span>
+        <div class="caption">Pine trail — the slow & steady squad.</div>
+      </a>
+
+      <!-- CARD 3 -->
+      <a class="card" href="#lg-3" title="Open full photo">
+        <div class="media">
+          <img src="IMG-20250813-WA0081[1].jpg" alt="Group photo at viewpoint" />
+        </div>
+        <span class="badge">Day 1</span>
+        <div class="caption">Summit selfie — timer runs fast!</div>
+      </a>
+
+      <!-- CARD 4 -->
+      <a class="card" href="#lg-4" title="Open full photo">
+        <div class="media">
+          <img src="IMG-20250813-WA0073[1].jpg" alt="mr.dabang uday bhai with praveen bhai " />
+        </div>
+        <span class="badge">Day 1</span>
+        <div class="caption">singing star ayshman chaubey .</div>
+      </a>
+      <a class="card" href="#lg-5" title="Open full photo">
+        <div class="media">
+          <img src="IMG-20250813-WA0075[2].jpg" alt="Breakfast at camp" />
+        </div>
+        <span class="badge">Day 1</span>
+        <div class="caption">Enjoy imambara with dahibara.</div>
+      </a>
+      <a class="card" href="#lg-6" title="Open full photo">
+        <div class="media">
+          <img src="IMG-20250813-WA0077[1].jpg" alt="Road trip stop" />
+        </div>
+        <span class="badge">Return</span>
+        <div class="caption">Roadside tea break — last group pic.</div>
+      </a>
+    </div>
+  </section>
+  <div class="parallax" aria-hidden="true"></div>
+
+  <div id="lg-1" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_125610_140[1].jpg" alt="Friends laughing in the bus (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+  <div id="lg-2" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_152605_205[1].jpg" alt="Pine forest trek (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+  <div id="lg-3" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_142101_392[1].jpg" alt="Summit group photo (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+  <div id="lg-4" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_142042_355[1].jpg" alt="Bonfire night (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+  <div id="lg-5" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_142029_220[1].jpg" alt="Camp breakfast (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+  <div id="lg-6" class="lightbox">
+    <figure>
+      <img src="IMG_20250813_130435_978[1].jpg" alt="Road trip stop (large)" />
+      <a class="close" href="#" aria-label="Close">✕</a>
+    </figure>
+  </div>
+
+
+  <footer>
+    <div></div>
+    <a class="btn" href="#" onclick="return false;">Our sg(miss.soumya mam, and mr.Alok sir )</a>
+    <div style="margin-top:.6rem; font-size:.9rem">This website is made by Akhil verma </div>
+<div>contact :Rv9984230610@gmail.com </div>
+  </footer>
+</body>
+
+</html>
